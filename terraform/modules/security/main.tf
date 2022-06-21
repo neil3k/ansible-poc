@@ -1,12 +1,12 @@
 #Upload our local key to the Key store in AWS.
 resource "aws_key_pair" "terraform-demo" {
-  key_name   = "graylog-demo"
+  key_name   = "instance_key"
   public_key = file("${path.module}/keys/id_rsa.pub")
 }
 
 #Create an IAM Imstance Profile
 resource "aws_iam_instance_profile" "dev-resources-iam-profile" {
-  name = "ec2_profile"
+  name = "ec2_ssm_profile"
   role = aws_iam_role.ssm-role.name
 }
 

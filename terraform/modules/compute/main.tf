@@ -22,8 +22,11 @@ resource "aws_instance" "ansible_host" {
   instance_type = "t3.micro"
   associate_public_ip_address = true
   subnet_id = data.aws_subnet.this.id
+  security_groups = [var.security_group_id]
+  iam_instance_profile = var.aws_instance_profile
 
   tags = {
     Name = "Ansible"
   }
 }
+
