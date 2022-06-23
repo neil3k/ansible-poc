@@ -6,6 +6,10 @@ output "instance_ssh_key_name" {
   value = aws_key_pair.terraform-demo.key_name
 }
 
+output "ssh_key_fingerprint" {
+  value = aws_key_pair.terraform-demo.fingerprint
+}
+
 output "aws_instance_profile" {
   value = aws_iam_instance_profile.dev-resources-iam-profile.name
 }

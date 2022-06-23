@@ -18,15 +18,54 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "ansible_host" {
-  ami = data.aws_ami.ubuntu.id
-  instance_type = "t3.micro"
+  ami                         = data.aws_ami.ubuntu.id
+  instance_type               = "t3.micro"
   associate_public_ip_address = true
-  subnet_id = data.aws_subnet.this.id
-  security_groups = [var.security_group_id]
-  iam_instance_profile = var.aws_instance_profile
+  subnet_id                   = data.aws_subnet.this.id
+  security_groups             = [var.security_group_id]
+  iam_instance_profile        = var.aws_instance_profile
+  user_data                   = file("${path.module}/installansible.sh")
+  key_name                    = var.ssh_key
 
   tags = {
     Name = "Ansible"
   }
 }
+
+resource "aws_instance" "telegraaf_host" {
+  ami                         = data.aws_ami.ubuntu.id
+  instance_type               = "t3.micro"
+  associate_public_ip_address = true
+  subnet_id                   = data.aws_subnet.this.id
+  security_groups             = [var.security_group_id]
+  iam_instance_profile        = var.aws_instance_profile
+  key_name                    = var.ssh_key
+
+  tags = {
+    Name = "telegraaf"
+  }
+}
+
+/*
+
+  provisioner "remote-exec" {
+    
+    connection {
+      type = "ssh"
+      host = self.public_ip
+      user = "ubuntu"
+
+    }
+    
+    inline = [
+      "sudo apt update",
+      "sudo apt install ansible -y"
+    ]
+  }
+  
+  tags = {
+    Name = "Ansible"
+  }
+}
+*/
 

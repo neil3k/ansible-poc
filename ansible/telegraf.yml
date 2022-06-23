@@ -1,0 +1,47 @@
+﻿---
+- hosts: all
+
+  tasks:
+    - name: install updates
+      remote_user: ubuntu
+      become: yes
+      apt:
+        name: "*"
+        state: latest
+
+    - name: install Apache
+      remote_user: ubuntu
+      become: yes
+      apt:
+        name : apache2
+        state: present
+
+    - name: Telegraf repository key
+      remote_user: ubuntu
+      become: yes
+      apt_key:
+        url: https://repos.influxdata.com/influxdb.key
+        keyring: /etc/apt/trusted.gpg.d/telegraf.gpg
+        state: present
+
+    - name: Telegraf repository
+      remote_user: ubuntu
+      become: yes
+      apt_repository:
+        repo: "deb https://repos.influxdata.com/ubuntu {{ ansible_distribution_release }} stable"
+        state: present
+        filename: telegraf
+      register: repo_telegraf
+
+    - name: Update cache
+      become: yes
+      apt:
+        update_cache: yes
+
+    - name: Telegraf packages
+      become: yes
+      apt:
+        name:
+          - telegraf
+        state: present
+      register: install_telegraf

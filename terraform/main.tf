@@ -22,6 +22,7 @@ module "compute" {
   ssh_key              = module.security.instance_ssh_key_name
   aws_instance_profile = module.security.aws_instance_profile
   vpc_id               = module.vpc_subnet.vpc_id
+  ssh_key_fingerprint  = module.security.ssh_key_fingerprint
 
   depends_on = [module.vpc_subnet, module.security]
 }
