@@ -46,26 +46,3 @@ resource "aws_instance" "telegraaf_host" {
   }
 }
 
-/*
-
-  provisioner "remote-exec" {
-    
-    connection {
-      type = "ssh"
-      host = self.public_ip
-      user = "ubuntu"
-
-    }
-    
-    inline = [
-      "sudo apt update",
-      "sudo apt install ansible -y"
-    ]
-  }
-  
-  tags = {
-    Name = "Ansible"
-  }
-}
-*/
-

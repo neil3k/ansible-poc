@@ -9,13 +9,6 @@
         name: "*"
         state: latest
 
-    - name: install Apache
-      remote_user: ubuntu
-      become: yes
-      apt:
-        name : apache2
-        state: present
-
     - name: Telegraf repository key
       remote_user: ubuntu
       become: yes
